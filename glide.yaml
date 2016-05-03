@@ -1,0 +1,3 @@
+package: github.com/onopm/go-httpscert
+import:
+  - package: github.com/labstack/gommon/color
