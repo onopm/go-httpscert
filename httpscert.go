@@ -20,7 +20,7 @@ func Run(url string) error {
 		infof("connection TLS Version: %s", tlsVersion(resp.TLS.Version))
 
 		for i := 0; i < len(resp.TLS.PeerCertificates); i++ {
-			infof("cert[%d]: %s", i, commonName(resp.TLS.PeerCertificates[i]))
+			infof("cert[%d]: %s", i, resp.TLS.PeerCertificates[i].Subject.CommonName)
 			printCert(resp.TLS.PeerCertificates[i], fmt.Sprintf("  cert[%d]", i))
 		}
 	} else {
