@@ -11,7 +11,8 @@ func Run(url string) error {
 
 	resp, err := http.Get(url)
 	if err != nil {
-		return fmt.Errorf("http handle error %s", err)
+		critf("http handle error: %s", err)
+		return fmt.Errorf("http get error")
 	}
 	defer resp.Body.Close()
 

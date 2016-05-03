@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/onopm/go-httpscert"
@@ -18,6 +17,7 @@ func main() {
 
 	err := httpscert.Run(url)
 	if err != nil {
-		log.Println(err)
+		os.Exit(1)
 	}
+
 }
