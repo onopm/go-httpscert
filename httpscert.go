@@ -41,12 +41,11 @@ func Run(conf Config) error {
 		for i := 0; i < len(resp.TLS.PeerCertificates); i++ {
 			infof("cert[%d]: %s", i, resp.TLS.PeerCertificates[i].Subject.CommonName)
 
-			if i == 0 {
+			if i == 0 && conf.Insecure == true {
 				err := resp.TLS.PeerCertificates[i].VerifyHostname(resp.Request.URL.Host)
 				if err != nil {
 					warnf("cert[%d]: %s", i, err)
 				}
-
 			}
 
 			printCert(resp.TLS.PeerCertificates[i], fmt.Sprintf("  cert[%d]", i))
