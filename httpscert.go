@@ -6,21 +6,28 @@ import (
 	"net/http"
 )
 
-func Run(url string) error {
+type Config struct {
+	Insecure bool
+	Url      string
+}
 
-	infof("http get: %s", url)
+func Run(conf Config) error {
 
-	infof("set InsecureSkipVerify: true")
-	//not set TLS.VerifiedChains.
+	infof("http get: %s", conf.Url)
+
+	if conf.Insecure {
+		infof("set InsecureSkipVerify: true")
+		//not set TLS.VerifiedChains.
+	}
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{
-			InsecureSkipVerify: true,
+			InsecureSkipVerify: conf.Insecure,
 			MinVersion:         0,
 		},
 	}
 	client := &http.Client{Transport: tr}
 
-	resp, err := client.Get(url)
+	resp, err := client.Get(conf.Url)
 	if err != nil {
 		critf("http handle error: %s", err)
 		return fmt.Errorf("http get error")
