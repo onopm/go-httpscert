@@ -49,8 +49,13 @@ func Run(conf Config) error {
 			}
 
 			printCert(resp.TLS.PeerCertificates[i], fmt.Sprintf("  cert[%d]", i))
-
 		}
+
+		err := CheckExpiration(resp.TLS.PeerCertificates[0])
+		if err != nil {
+			warnf("%s", err)
+		}
+
 	} else {
 		warnf("not found TLS information.")
 	}

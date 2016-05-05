@@ -2,6 +2,7 @@ package httpscert
 
 import (
 	"crypto/x509"
+	"errors"
 	"fmt"
 	"time"
 )
@@ -60,4 +61,19 @@ func printCert(cert *x509.Certificate, prefix string) {
 	}
 	//TODO.
 	//fmt.Printf("PublicKeyAlgorithm: %v\n", cert.PublicKeyAlgorithm)
+}
+
+func CheckExpiration(c *x509.Certificate) error {
+	now := time.Now()
+	duration := c.NotAfter.Sub(now)
+	dDay := int(duration.Hours() / 24)
+
+	if duration > 0 {
+		infof("certificate[%s] will expire in %v days", c.Subject.CommonName, dDay)
+		return nil
+	} else {
+		return errors.New(fmt.Sprintf("certificate[%s] has expired", c.Subject.CommonName))
+	}
+
+	return nil
 }
